@@ -1,6 +1,6 @@
 # Rounding Instructions for WebAssembly
 
-This is a fork for a proposal to extend WebAssembly with rounded floating point instructions [Overview.md](Overview.md)
+This is a fork for a proposal to extend WebAssembly with rounded floating point instructions [Overview.md](proposals/rounding-mode-control/Overview.md)
 
 
 
