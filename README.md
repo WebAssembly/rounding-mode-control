@@ -1,4 +1,12 @@
-![Build Status](https://github.com/WebAssembly/spec/actions/workflows/main.yml/badge.svg)
+# Rounding Instructions for WebAssembly
+
+This is a fork for a proposal to extend WebAssembly with rounded floating point instructions [Overview.md](proposals/rounding-mode-control/Overview.md)
+
+
+
+
+[![CI for specs](https://github.com/WebAssembly/spec/actions/workflows/ci-spec.yml/badge.svg)](https://github.com/WebAssembly/spec/actions/workflows/ci-spec.yml)
+[![CI for interpreter & tests](https://github.com/WebAssembly/spec/actions/workflows/ci-interpreter.yml/badge.svg)](https://github.com/WebAssembly/spec/actions/workflows/ci-interpreter.yml)
 
 # spec
 
