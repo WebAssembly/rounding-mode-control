@@ -19,11 +19,8 @@ The following instructions exist:
 | | 0xB4 |    f32.convert_i64_s                      |
 | | 0xB5 |    f32.convert_i64_u                      |
 | | 0xB6 |    f32.demote                             |
-| | 0xB7 |    f64.convert_i32_s                      |
-| | 0xB8 |    f64.convert_i32_u                      |
 | | 0xB9 |    f64.convert_i64_s                      |
 | | 0xBA |    f64.convert_i64_u                      |
-| | 0xBB |    f64.promote_f32                        |
 
 That is the conversion-to/between floating points and the opertors `+-*/√` within the floats. Not every conversion or operation is excact. One has to round. In the existing instructions the closest neighbour is choosen. In case neither neighbour is closer to the exact result the one with an even mantissa is choosen.
 
@@ -35,75 +32,66 @@ There are other options for rouding namely:
 |floor|take the neighbour that is less|
 |trunc|take the number that is closer to zero|
 
-This proposal proposes to extend matrix of floating point instruction comnination with a new dimension called a rounding variant. There are some branching prepare instructions that are used for most important usecase that is interval arithmetic as well. This results in the following new instructions:
+This proposal proposes to extend the matrix of floating point instructions by combining them with a new dimension called a rounding variant. There are some branch preparation instructions that are used for most the important use case, that being interval arithmetic. This results in the following new instructions:
 
 
-|prefix|opcode |opcode binary  |name                       | pretty string         |
-|------|-------|---------------|---------------------------|-----------------------|
-| 0xfc | 0x1C  |               | f32.sign_bit              | sign_bit              |
-| 0xfc | 0x1D  |               | f64.sign_bit              | sign_bit              |
-| 0xfc | 0x1E  |               | i32.arithmetic_signum_f32 | arithmetic_signum_f32 |
-| 0xfc | 0x1F  |               | i32.arithmetic_signum_f64 | arithmetic_signum_f64 |
-| 0xfc | 0x100 | 0b1'00'000000 | f32.sqrt_ceil             | sqrt_ceil             |
-| 0xfc | 0x140 | 0b1'01'000000 | f32.sqrt_floor            | sqrt_floor            |
-| 0xfc | 0x180 | 0b1'10'000000 | f32.sqrt_trunc            | sqrt_trunc            |
-| 0xfc | 0x101 | 0b1'00'000001 | f32.add_ceil              | +_ceil                |
-| 0xfc | 0x141 | 0b1'01'000001 | f32.add_floor             | +_floor               |
-| 0xfc | 0x181 | 0b1'10'000001 | f32.add_trunc             | +_trunc               |
-| 0xfc | 0x102 | 0b1'00'000010 | f32.sub_ceil              | -_ceil                |
-| 0xfc | 0x142 | 0b1'01'000010 | f32.sub_floor             | -_floor               |
-| 0xfc | 0x182 | 0b1'10'000010 | f32.sub_trunc             | -_trunc               |
-| 0xfc | 0x103 | 0b1'00'000011 | f32.mul_ceil              | *_ceil                |
-| 0xfc | 0x143 | 0b1'01'000011 | f32.mul_floor             | *_floor               |
-| 0xfc | 0x183 | 0b1'10'000011 | f32.mul_trunc             | *_trunc               |
-| 0xfc | 0x104 | 0b1'00'000100 | f32.div_ceil              | /_ceil                |
-| 0xfc | 0x144 | 0b1'01'000100 | f32.div_floor             | /_floor               |
-| 0xfc | 0x184 | 0b1'10'000100 | f32.div_trunc             | /_trunc               |
-| 0xfc | 0x105 | 0b1'00'000101 | f64.sqrt_ceil             | sqrt_ceil             |
-| 0xfc | 0x145 | 0b1'01'000101 | f64.sqrt_floor            | sqrt_floor            |
-| 0xfc | 0x185 | 0b1'10'000101 | f64.sqrt_trunc            | sqrt_trunc            |
-| 0xfc | 0x106 | 0b1'00'000110 | f64.add_ceil              | +_ceil                |
-| 0xfc | 0x146 | 0b1'01'000110 | f64.add_floor             | +_floor               |
-| 0xfc | 0x186 | 0b1'10'000110 | f64.add_trunc             | +_trunc               |
-| 0xfc | 0x107 | 0b1'00'000111 | f64.sub_ceil              | -_ceil                |
-| 0xfc | 0x147 | 0b1'01'000111 | f64.sub_floor             | -_floor               |
-| 0xfc | 0x187 | 0b1'10'000111 | f64.sub_trunc             | -_trunc               |
-| 0xfc | 0x108 | 0b1'00'001000 | f64.mul_ceil              | *_ceil                |
-| 0xfc | 0x148 | 0b1'01'001000 | f64.mul_floor             | *_floor               |
-| 0xfc | 0x188 | 0b1'10'001000 | f64.mul_trunc             | *_trunc               |
-| 0xfc | 0x109 | 0b1'00'001001 | f64.div_ceil              | /_ceil                |
-| 0xfc | 0x149 | 0b1'01'001001 | f64.div_floor             | /_floor               |
-| 0xfc | 0x189 | 0b1'10'001001 | f64.div_trunc             | /_trunc               |
-| 0xfc | 0x10a | 0b1'00'001010 | f32.convert_i32_s_ceil    | convert_i32_s_ceil    |
-| 0xfc | 0x14a | 0b1'01'001010 | f32.convert_i32_s_floor   | convert_i32_s_floor   |
-| 0xfc | 0x18a | 0b1'10'001010 | f32.convert_i32_s_trunc   | convert_i32_s_trunc   |
-| 0xfc | 0x10b | 0b1'00'001011 | f32.convert_i32_u_ceil    | convert_i32_u_ceil    |
-| 0xfc | 0x14b | 0b1'01'001011 | f32.convert_i32_u_floor   | convert_i32_u_floor   |
-| 0xfc | 0x18b | 0b1'10'001011 | f32.convert_i32_u_trunc   | convert_i32_u_trunc   |
-| 0xfc | 0x10c | 0b1'00'001100 | f32.convert_i64_s_ceil    | convert_i64_s_ceil    |
-| 0xfc | 0x14c | 0b1'01'001100 | f32.convert_i64_s_floor   | convert_i64_s_floor   |
-| 0xfc | 0x18c | 0b1'10'001100 | f32.convert_i64_s_trunc   | convert_i64_s_trunc   |
-| 0xfc | 0x10d | 0b1'00'001101 | f32.convert_i64_u_ceil    | convert_i64_u_ceil    |
-| 0xfc | 0x14d | 0b1'01'001101 | f32.convert_i64_u_floor   | convert_i64_u_floor   |
-| 0xfc | 0x18d | 0b1'10'001101 | f32.convert_i64_u_trunc   | convert_i64_u_trunc   |
-| 0xfc | 0x10e | 0b1'00'001110 | f32.demote_f64_ceil       | demote_f64_ceil       |
-| 0xfc | 0x14e | 0b1'01'001110 | f32.demote_f64_floor      | demote_f64_floor      |
-| 0xfc | 0x18e | 0b1'10'001110 | f32.demote_f64_trunc      | demote_f64_trunc      |
-| 0xfc | 0x10f | 0b1'00'001111 | f64.convert_i32_s_ceil    | convert_i32_s_ceil    |
-| 0xfc | 0x14f | 0b1'01'001111 | f64.convert_i32_s_floor   | convert_i32_s_floor   |
-| 0xfc | 0x18f | 0b1'10'001111 | f64.convert_i32_s_trunc   | convert_i32_s_trunc   |
-| 0xfc | 0x110 | 0b1'00'010000 | f64.convert_i32_u_ceil    | convert_i32_u_ceil    |
-| 0xfc | 0x150 | 0b1'01'010000 | f64.convert_i32_u_floor   | convert_i32_u_floor   |
-| 0xfc | 0x190 | 0b1'10'010000 | f64.convert_i32_u_trunc   | convert_i32_u_trunc   |
-| 0xfc | 0x111 | 0b1'00'010001 | f64.convert_i64_s_ceil    | convert_i64_s_ceil    |
-| 0xfc | 0x151 | 0b1'01'010001 | f64.convert_i64_s_floor   | convert_i64_s_floor   |
-| 0xfc | 0x191 | 0b1'10'010001 | f64.convert_i64_s_trunc   | convert_i64_s_trunc   |
-| 0xfc | 0x112 | 0b1'00'010010 | f64.convert_i64_u_ceil    | convert_i64_u_ceil    |
-| 0xfc | 0x152 | 0b1'01'010010 | f64.convert_i64_u_floor   | convert_i64_u_floor   |
-| 0xfc | 0x192 | 0b1'10'010010 | f64.convert_i64_u_trunc   | convert_i64_u_trunc   |
-| 0xfc | 0x113 | 0b1'00'010011 | f64.promote_f32_ceil      | promote_f32_ceil      |
-| 0xfc | 0x153 | 0b1'01'010011 | f64.promote_f32_floor     | promote_f32_floor     |
-| 0xfc | 0x193 | 0b1'10'010011 | f64.promote_f32_trunc     | promote_f32_trunc     |
+|prefix|opcode    |opcode binary         |name                     | pretty string        |
+|------|-----------|-----------------------|---------------------------|-----------------------|
+| 0xFC | 0x1C      | 0b00011100            | f32.sign_bit              | sign_bit              |
+| 0xFC | 0x1D      | 0b00011101            | f64.sign_bit              | sign_bit              |
+| 0xFC | 0x1E      | 0b00011110            | i32.arithmetic_signum_f32 | arithmetic_signum_f32 |
+| 0xFC | 0x1F      | 0b00011111            | i32.arithmetic_signum_f64 | arithmetic_signum_f64 |
+| 0xFC | 0x20 0x00 | 0b00100000 0b00000000 | f32.sqrt_ceil             | sqrt_ceil             |
+| 0xFC | 0x20 0x01 | 0b00100000 0b00000001 | f32.sqrt_floor            | sqrt_floor            |
+| 0xFC | 0x20 0x02 | 0b00100000 0b00000010 | f32.sqrt_trunc            | sqrt_trunc            |
+| 0xFC | 0x21 0x00 | 0b00100001 0b00000000 | f32.add_ceil              | +_ceil                |
+| 0xFC | 0x21 0x01 | 0b00100001 0b00000001 | f32.add_floor             | +_floor               |
+| 0xFC | 0x21 0x02 | 0b00100001 0b00000010 | f32.add_trunc             | +_trunc               |
+| 0xFC | 0x22 0x00 | 0b00100010 0b00000000 | f32.sub_ceil              | -_ceil                |
+| 0xFC | 0x22 0x01 | 0b00100010 0b00000001 | f32.sub_floor             | -_floor               |
+| 0xFC | 0x22 0x02 | 0b00100010 0b00000010 | f32.sub_trunc             | -_trunc               |
+| 0xFC | 0x23 0x00 | 0b00100011 0b00000000 | f32.mul_ceil              | *_ceil                |
+| 0xFC | 0x23 0x01 | 0b00100011 0b00000001 | f32.mul_floor             | *_floor               |
+| 0xFC | 0x23 0x02 | 0b00100011 0b00000010 | f32.mul_trunc             | *_trunc               |
+| 0xFC | 0x24 0x00 | 0b00100100 0b00000000 | f32.div_ceil              | /_ceil                |
+| 0xFC | 0x24 0x01 | 0b00100100 0b00000001 | f32.div_floor             | /_floor               |
+| 0xFC | 0x24 0x02 | 0b00100100 0b00000010 | f32.div_trunc             | /_trunc               |
+| 0xFC | 0x25 0x00 | 0b00100101 0b00000000 | f64.sqrt_ceil             | sqrt_ceil             |
+| 0xFC | 0x25 0x01 | 0b00100101 0b00000001 | f64.sqrt_floor            | sqrt_floor            |
+| 0xFC | 0x25 0x02 | 0b00100101 0b00000010 | f64.sqrt_trunc            | sqrt_trunc            |
+| 0xFC | 0x26 0x00 | 0b00100110 0b00000000 | f64.add_ceil              | +_ceil                |
+| 0xFC | 0x26 0x01 | 0b00100110 0b00000001 | f64.add_floor             | +_floor               |
+| 0xFC | 0x26 0x02 | 0b00100110 0b00000010 | f64.add_trunc             | +_trunc               |
+| 0xFC | 0x27 0x00 | 0b00100111 0b00000000 | f64.sub_ceil              | -_ceil                |
+| 0xFC | 0x27 0x01 | 0b00100111 0b00000001 | f64.sub_floor             | -_floor               |
+| 0xFC | 0x27 0x02 | 0b00100111 0b00000010 | f64.sub_trunc             | -_trunc               |
+| 0xFC | 0x28 0x00 | 0b00101000 0b00000000 | f64.mul_ceil              | *_ceil                |
+| 0xFC | 0x28 0x01 | 0b00101000 0b00000001 | f64.mul_floor             | *_floor               |
+| 0xFC | 0x28 0x02 | 0b00101000 0b00000010 | f64.mul_trunc             | *_trunc               |
+| 0xFC | 0x29 0x00 | 0b00101001 0b00000000 | f64.div_ceil              | /_ceil                |
+| 0xFC | 0x29 0x01 | 0b00101001 0b00000001 | f64.div_floor             | /_floor               |
+| 0xFC | 0x29 0x02 | 0b00101001 0b00000010 | f64.div_trunc             | /_trunc               |
+| 0xFC | 0x2A 0x00 | 0b00101010 0b00000000 | f32.convert_i32_s_ceil    | convert_i32_s_ceil    |
+| 0xFC | 0x2A 0x01 | 0b00101010 0b00000001 | f32.convert_i32_s_floor   | convert_i32_s_floor   |
+| 0xFC | 0x2A 0x02 | 0b00101010 0b00000010 | f32.convert_i32_s_trunc   | convert_i32_s_trunc   |
+| 0xFC | 0x2B 0x00 | 0b00101011 0b00000000 | f32.convert_i32_u_ceil    | convert_i32_u_ceil    |
+| 0xFC | 0x2B 0x01 | 0b00101011 0b00000001 | f32.convert_i32_u_floor   | convert_i32_u_floor   |
+| 0xFC | 0x2B 0x02 | 0b00101011 0b00000010 | f32.convert_i32_u_trunc   | convert_i32_u_trunc   |
+| 0xFC | 0x2C 0x00 | 0b00101100 0b00000000 | f32.convert_i64_s_ceil    | convert_i64_s_ceil    |
+| 0xFC | 0x2C 0x01 | 0b00101100 0b00000001 | f32.convert_i64_s_floor   | convert_i64_s_floor   |
+| 0xFC | 0x2C 0x02 | 0b00101100 0b00000010 | f32.convert_i64_s_trunc   | convert_i64_s_trunc   |
+| 0xFC | 0x2D 0x00 | 0b00101101 0b00000000 | f32.convert_i64_u_ceil    | convert_i64_u_ceil    |
+| 0xFC | 0x2D 0x01 | 0b00101101 0b00000001 | f32.convert_i64_u_floor   | convert_i64_u_floor   |
+| 0xFC | 0x2D 0x02 | 0b00101101 0b00000010 | f32.convert_i64_u_trunc   | convert_i64_u_trunc   |
+| 0xFC | 0x2E 0x00 | 0b00101110 0b00000000 | f32.demote_f64_ceil       | demote_f64_ceil       |
+| 0xFC | 0x2E 0x01 | 0b00101110 0b00000001 | f32.demote_f64_floor      | demote_f64_floor      |
+| 0xFC | 0x2E 0x02 | 0b00101110 0b00000010 | f32.demote_f64_trunc      | demote_f64_trunc      |
+| 0xFC | 0x2F 0x00 | 0b00101111 0b00000000 | f64.convert_i64_s_ceil    | convert_i64_s_ceil    |
+| 0xFC | 0x2F 0x01 | 0b00101111 0b00000001 | f64.convert_i64_s_floor   | convert_i64_s_floor   |
+| 0xFC | 0x2F 0x02 | 0b00101111 0b00000010 | f64.convert_i64_s_trunc   | convert_i64_s_trunc   |
+| 0xFC | 0x30 0x00 | 0b00110000 0b00000000 | f64.convert_i64_u_ceil    | convert_i64_u_ceil    |
+| 0xFC | 0x30 0x01 | 0b00110000 0b00000001 | f64.convert_i64_u_floor   | convert_i64_u_floor   |
+| 0xFC | 0x30 0x02 | 0b00110000 0b00000010 | f64.convert_i64_u_trunc   | convert_i64_u_trunc   |
 
 ## semantics
 
