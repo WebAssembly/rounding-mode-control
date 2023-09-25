@@ -127,7 +127,7 @@ Here means `minimal` a functions that gives the set of minimal elements of the i
 
 ## redundants
 
-The are redundants and simple to implement functions:
+The following functions are redundant and simple to implement:
 ```
 f32.convert_i32_s_ceil
 f32.convert_i32_s_floor
@@ -136,7 +136,7 @@ f32.convert_i32_u_ceil
 f32.convert_i32_u_floor
 f32.convert_i32_u_trunc
 ```
-these functions could be implemented by using `extend` on the input `i32` to yield a `i64`. Then call `f32.convert_i64_x_round`.
+The functions above could be implemented by using `extend` on the input `i32` to yield a `i64`, followed by `f32.convert_i64_x_round`.
 
 
 
@@ -148,7 +148,7 @@ f32.convert_i64_u_ceil
 f32.convert_i64_u_floor
 f32.convert_i64_u_trunc
 ```
-these functions `f32.f_i64_x_round` could be implemented by utilizing `f64.f_i64_x_round` and then use `f32.demote_f64_round` on the intermediate result.
+These `f32.convert_i64_x_round` functions could be implemented by utilizing `f64.convert_i64_x_round` and then using `f32.demote_f64_round` on the intermediate result. (Note that this doesn't always work with nearest-or-even rounding, but the "round" suffix does not comprehend that possibility.)
 
 
 
@@ -160,7 +160,7 @@ f64.convert_i32_u_ceil
 f64.convert_i32_u_floor
 f64.convert_i32_u_trunc
 ```
-the functions are the same as `f64.convert_i32_s` and `f64.convert_i32_u` by chance. The reason is that a mantissa of 53 bits of the `f64` floats fits a whole `i32` in them.
+It turns out that the functions above are respectively equivalent to `f64.convert_i32_s` and `f64.convert_i32_u`. The reason is that an `f64` float contains a 53-bit mantissa, which is sufficient to accommodate an entire 'i32'.
 
 
 
@@ -170,7 +170,7 @@ f64.promote_f32_ceil
 f64.promote_f32_floor
 f64.promote_f32_trunc
 ```
-these are the same as `f64.promote_f32` by chance.
+These are all equivalent to `f64.promote_f32` because such promotion would be lossless and therefore agnostic to rounding mode.
 
 
 
