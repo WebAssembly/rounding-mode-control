@@ -1,4 +1,4 @@
-# rounding variants of numeric operations
+# Rounding Variants of numeric operations
 
 The following instructions exist:
 

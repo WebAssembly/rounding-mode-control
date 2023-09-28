@@ -1,4 +1,4 @@
-# Rounding Instructions for WebAssembly
+# Rounding Variants for WebAssembly
 
 This is a fork for a proposal to extend WebAssembly with rounded floating point instructions [Overview.md](proposals/rounding-mode-control/Overview.md)
 
