@@ -39,9 +39,9 @@ This proposal proposes to extend the matrix of floating point instructions by co
 |prefix|opcode|opcode binary|name                 | pretty string      |
 |------|-------|--------------|----------------------|---------------------|
 | 0xFC | 0x1C | 0b00011100 | f32.sgn                 | sgn                 |
-| 0xFC | 0x1D | 0b00011101 | f32.asgn                | asgn                |
+| 0xFC | 0x1D | 0b00011101 | i32.asgn_f32            | asgn_f32            |
 | 0xFC | 0x1E | 0b00011110 | f64.sgn                 | sgn                 |
-| 0xFC | 0x1F | 0b00011111 | f64.asgn                | asgn                |
+| 0xFC | 0x1F | 0b00011111 | i32.asgn_f64            | asgn_f64            |
 | 0xFC | 0x20 | 0b00100000 | f32.sqrt_ceil           | sqrt_ceil           |
 | 0xFC | 0x21 | 0b00100001 | f32.add_ceil            | +_ceil              |
 | 0xFC | 0x22 | 0b00100010 | f32.sub_ceil            | -_ceil              |
@@ -61,7 +61,7 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0x30 | 0b00110000 | f64.convert_i32_u_ceil  | convert_i32_u_ceil  |
 | 0xFC | 0x31 | 0b00110001 | f64.convert_i64_s_ceil  | convert_i64_s_ceil  |
 | 0xFC | 0x32 | 0b00110010 | f64.convert_i64_u_ceil  | convert_i64_u_ceil  |
-| 0xFC | 0x33 | 0b00110011 | f32.promote_f32_ceil    | promote_f32_ceil    |
+| 0xFC | 0x33 | 0b00110011 | f64.promote_f32_ceil    | promote_f32_ceil    |
 | 0xFC | 0x40 | 0b01000000 | f32.sqrt_floor          | sqrt_floor          |
 | 0xFC | 0x41 | 0b01000001 | f32.add_floor           | +_floor             |
 | 0xFC | 0x42 | 0b01000010 | f32.sub_floor           | -_floor             |
@@ -81,7 +81,7 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0x50 | 0b01010000 | f64.convert_i32_u_floor | convert_i32_u_floor |
 | 0xFC | 0x51 | 0b01010001 | f64.convert_i64_s_floor | convert_i64_s_floor |
 | 0xFC | 0x52 | 0b01010010 | f64.convert_i64_u_floor | convert_i64_u_floor |
-| 0xFC | 0x53 | 0b01010011 | f32.promote_f32_floor   | promote_f32_floor   |
+| 0xFC | 0x53 | 0b01010011 | f64.promote_f32_floor   | promote_f32_floor   |
 | 0xFC | 0x60 | 0b01100000 | f32.sqrt_trunc          | sqrt_trunc          |
 | 0xFC | 0x61 | 0b01100001 | f32.add_trunc           | +_trunc             |
 | 0xFC | 0x62 | 0b01100010 | f32.sub_trunc           | -_trunc             |
@@ -101,7 +101,7 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0x70 | 0b01110000 | f64.convert_i32_u_trunc | convert_i32_u_trunc |
 | 0xFC | 0x71 | 0b01110001 | f64.convert_i64_s_trunc | convert_i64_s_trunc |
 | 0xFC | 0x72 | 0b01110010 | f64.convert_i64_u_trunc | convert_i64_u_trunc |
-| 0xFC | 0x73 | 0b01110011 | f32.promote_f32_trunc   | promote_f32_trunc   |
+| 0xFC | 0x73 | 0b01110011 | f64.promote_f32_trunc   | promote_f32_trunc   |
 
 ## semantics
 
