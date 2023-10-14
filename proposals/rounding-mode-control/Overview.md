@@ -18,11 +18,12 @@ The following instructions exist:
 | | 0xB3 |    f32.convert_i32_u                      |
 | | 0xB4 |    f32.convert_i64_s                      |
 | | 0xB5 |    f32.convert_i64_u                      |
-| | 0xB6 |    f32.demote                             |
+| | 0xB6 |    f32.demote_f64                         |
 | | 0xB7 |    f64.convert_i32_s                      |
 | | 0xB8 |    f64.convert_i32_u                      |
 | | 0xB9 |    f64.convert_i64_s                      |
 | | 0xBA |    f64.convert_i64_u                      |
+| | 0xBB |    f64.promote_f32                        |
 
 That is the conversion-to/between floating points and the opertors `+-*/√` within the floats. Not every conversion or operation is excact. One has to round. In the existing instructions the closest neighbour is choosen. In case neither neighbour is closer to the exact result the one with an even mantissa is choosen.
 
@@ -38,10 +39,10 @@ This proposal proposes to extend the matrix of floating point instructions by co
 
 |prefix|opcode|opcode binary|name                 | pretty string      |
 |------|-------|--------------|----------------------|---------------------|
-| 0xFC | 0x1C | 0b00011100 | f32.sgn                 | sgn                 |
-| 0xFC | 0x1D | 0b00011101 | i32.asgn_f32            | asgn_f32            |
-| 0xFC | 0x1E | 0b00011110 | f64.sgn                 | sgn                 |
-| 0xFC | 0x1F | 0b00011111 | i32.asgn_f64            | asgn_f64            |
+| 0xFC | 0x1C | 0b00011100 | f32.binary_sign         | binary_sign         |
+| 0xFC | 0x1D | 0b00011101 | i32.trinary_sign_f32    | trinary_sign_f32    |
+| 0xFC | 0x1E | 0b00011110 | f64.binary_sign         | binary_sign         |
+| 0xFC | 0x1F | 0b00011111 | i32.trinary_sign_f64    | trinary_sign_f64    |
 | 0xFC | 0x20 | 0b00100000 | f32.sqrt_ceil           | sqrt_ceil           |
 | 0xFC | 0x21 | 0b00100001 | f32.add_ceil            | +_ceil              |
 | 0xFC | 0x22 | 0b00100010 | f32.sub_ceil            | -_ceil              |
