@@ -33,7 +33,9 @@ The following instructions exist:
 | | 0xBA |    f64.convert_i64_u                      |
 | | 0xBB |    f64.promote_f32                        |
 
-That is the conversion-to/between floating points and the opertors `+-*/√` within the floats. Not every conversion or operation is excact. One has to round. In the existing instructions the closest neighbour is choosen. In case neither neighbour is closer to the exact result the one with an even mantissa is choosen.
+First of all, this proposal will not create new variants of the i32/i64.trunc_f32/f64_s/u instructions, which perform integer rounding. For now, corresponding gaps have been left in the opcode map which might be populated with such extensions later.
+
+Otherwise, the above list entails the conversion-to/between floating points and the opertors `+-*/√` within the floats. Not every conversion or operation is excact. One has to round. In the existing instructions the closest neighbour is choosen. In case neither neighbour is closer to the exact result the one with an even mantissa is choosen.
 
 There are other options for rounding namely:
 
@@ -61,14 +63,6 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0x27 | 0b00100111 | f64.sub_ceil            | -_ceil              |
 | 0xFC | 0x28 | 0b00101000 | f64.mul_ceil            | *_ceil              |
 | 0xFC | 0x29 | 0b00101001 | f64.div_ceil            | /_ceil              |
-| 0xFC | 0x2A | 0b00101010 | i32.ceil_f32_s          | ceil_f32_s          |
-| 0xFC | 0x2B | 0b00101011 | i32.ceil_f32_u          | ceil_f32_u          |
-| 0xFC | 0x2C | 0b00101100 | i32.ceil_f64_s          | ceil_f64_s          |
-| 0xFC | 0x2D | 0b00101101 | i32.ceil_f64_u          | ceil_f64_u          |
-| 0xFC | 0x2E | 0b00101110 | i64.ceil_f32_s          | ceil_f32_s          |
-| 0xFC | 0x2F | 0b00101111 | i64.ceil_f32_u          | ceil_f32_u          |
-| 0xFC | 0x30 | 0b00110000 | i64.ceil_f64_s          | ceil_f64_s          |
-| 0xFC | 0x31 | 0b00110001 | i64.ceil_f64_u          | ceil_f64_u          |
 | 0xFC | 0x32 | 0b00110010 | f32.convert_i32_s_ceil  | convert_i32_s_ceil  |
 | 0xFC | 0x33 | 0b00110011 | f32.convert_i32_u_ceil  | convert_i32_u_ceil  |
 | 0xFC | 0x34 | 0b00110100 | f32.convert_i64_s_ceil  | convert_i64_s_ceil  |
@@ -89,14 +83,6 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0x47 | 0b01000111 | f64.sub_floor           | -_floor             |
 | 0xFC | 0x48 | 0b01001000 | f64.mul_floor           | *_floor             |
 | 0xFC | 0x49 | 0b01001001 | f64.div_floor           | /_floor             |
-| 0xFC | 0x4A | 0b01001010 | i32.floor_f32_s         | floor_f32_s         |
-| 0xFC | 0x4B | 0b01001011 | i32.floor_f32_u         | floor_f32_u         |
-| 0xFC | 0x4C | 0b01001100 | i32.floor_f64_s         | floor_f64_s         |
-| 0xFC | 0x4D | 0b01001101 | i32.floor_f64_u         | floor_f64_u         |
-| 0xFC | 0x4E | 0b01001110 | i64.floor_f32_s         | floor_f32_s         |
-| 0xFC | 0x4F | 0b01001111 | i64.floor_f32_u         | floor_f32_u         |
-| 0xFC | 0x50 | 0b01010000 | i64.floor_f64_s         | floor_f64_s         |
-| 0xFC | 0x51 | 0b01010001 | i64.floor_f64_u         | floor_f64_u         |
 | 0xFC | 0x52 | 0b01010010 | f32.convert_i32_s_floor | convert_i32_s_floor |
 | 0xFC | 0x53 | 0b01010011 | f32.convert_i32_u_floor | convert_i32_u_floor |
 | 0xFC | 0x54 | 0b01010100 | f32.convert_i64_s_floor | convert_i64_s_floor |
@@ -117,14 +103,6 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0x67 | 0b01100111 | f64.sub_trunc           | -_trunc             |
 | 0xFC | 0x68 | 0b01101000 | f64.mul_trunc           | *_trunc             |
 | 0xFC | 0x69 | 0b01101001 | f64.div_trunc           | /_trunc             |
-| 0xFC | 0x6A | 0b01101010 | i32.trunc_f32_s         | trunc_f32_s         |
-| 0xFC | 0x6B | 0b01101011 | i32.trunc_f32_u         | trunc_f32_u         |
-| 0xFC | 0x6C | 0b01101100 | i32.trunc_f64_s         | trunc_f64_s         |
-| 0xFC | 0x6D | 0b01101101 | i32.trunc_f64_u         | trunc_f64_u         |
-| 0xFC | 0x6E | 0b01101110 | i64.trunc_f32_s         | trunc_f32_s         |
-| 0xFC | 0x6F | 0b01101111 | i64.trunc_f32_u         | trunc_f32_u         |
-| 0xFC | 0x70 | 0b01110000 | i64.trunc_f64_s         | trunc_f64_s         |
-| 0xFC | 0x71 | 0b01110001 | i64.trunc_f64_u         | trunc_f64_u         |
 | 0xFC | 0x72 | 0b01110010 | f32.convert_i32_s_trunc | convert_i32_s_trunc |
 | 0xFC | 0x73 | 0b01110011 | f32.convert_i32_u_trunc | convert_i32_u_trunc |
 | 0xFC | 0x74 | 0b01110100 | f32.convert_i64_s_trunc | convert_i64_s_trunc |
