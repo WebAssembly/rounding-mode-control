@@ -130,19 +130,24 @@ it is that:
 
 | | | |
 |----------------|-----|------------------------------------------------------|
-| O.f_I_ceil(x)  | `=` | `min { y \| y ∈ O, F(x) <= y }`                       |
-| O.f_I_floor(x) | `=` | `max { y \| y ∈ O, y <= F(x) }`                       |
-| O.f_I_trunc(x) | `=` | `if 0 < F(x) then O.f_I_floor(x) else O.f_I_ceil(x)` |
+| `O.f_I_ceil(x)`  | `=` | `min { y \| y ∈ O, F(x) <= y }`                       |
+| `O.f_I_floor(x)` | `=` | `max { y \| y ∈ O, y <= F(x) }`                       |
+| `O.f_I_trunc(x)` | `=` | `if 0 < F(x) then O.f_I_floor(x) else O.f_I_ceil(x)` |
 
 This definition is not complete as the result might be zero and in that case the sign has to be determined. In that case IEEE defines the result as `+0.0` with following exception: Should `f` be `+` or `-` and the result be zero then the sign is `-`. In Formal notation this gives us: (higher listed rules have precedence)
 
 
 | | | |
 | :------------- | :---: | :----------------------------------------------------------- |
-| O.±_I_floor(x) |  `=`  |  `min (maximal { y \| y ∈ O, y <= F(x) })`                    |
-| O.f_I_ceil(x)  |  `=`  |  `max { y \| y ∈ O\{-0.0},      F(x) <= y }`                  |
-| O.f_I_floor(x) |  `=`  |  `min { y \| y ∈ O\{-0.0}, y <= F(x)      })`                 |
-| O.f_I_trunc(x) |  `=`  |  `if 0 < F(x) then O.f_I_floor(x) else O.f_I_ceil(x)`        |
+| `O.±_I_floor(x)` |  `=`  |  `min (maximal { y \| y ∈ O,         y <= F(x) })`                    |
+| `O.±_I_ceil(x)`  |  `=`  |  `max (minimal { y \| y ∈ O, F(x) <= y         })`                    |
+| `O.f_I_ceil(x)`  |  `=`  |  `adapt_zero_signₓ { y \| y ∈ O,      F(x) <= y }`                  |
+| `O.f_I_floor(x)` |  `=`  |  `adapt_zero_signₓ { y \| y ∈ O, y <= F(x)      }`                 |
+| `O.f_I_trunc(x)` |  `=`  |  `if 0 < F(x) then O.f_I_floor(x) else O.f_I_ceil(x)`        |
+| `adapt_zero_signₓ( {r} )` | `=` | `r` |
+| `adapt_zero_signₓ( {-0.0,+0.0} )` | `=` | `copysign(0.0, x)` |
+| `adapt_zero_sign₍ₗ,ᵣ₎( {-0.0,+0.0} )` | `=` | `copysign(0.0, copysign(1.0, l) * copysign(1.0, r))` |
+
 
 Here `maximal` means a function that gives the set of maximal elements of the input set. So the result set is either a non zero number singleton or the set `{-0.0, 0.0}`. Here `max` and `min` are parameterized on the relation `<` with the additional having `-0.0 < 0.0` to make the relation total.
 
