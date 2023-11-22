@@ -114,7 +114,7 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0x7A | 0b01111010 | f64.convert_i64_u_trunc | convert_i64_u_trunc |
 | 0xFC | 0x7B | 0b01111011 | f64.promote_f32_trunc   | promote_f32_trunc   |
 
-## semantics
+## Semantics
 
 The semantics are specified by the IEEE standard and are as follows: For an instruction `O.f_I_round` with
 
@@ -130,25 +130,30 @@ it is that:
 
 | | | |
 |----------------|-----|------------------------------------------------------|
-| O.f_I_ceil(x)  | `=` | `min { y \| y ∈ O, F(x) <= y }`                       |
-| O.f_I_floor(x) | `=` | `max { y \| y ∈ O, y <= F(x) }`                       |
-| O.f_I_trunc(x) | `=` | `if 0 < F(x) then O.f_I_floor(x) else O.f_I_ceil(x)` |
+| `O.f_I_ceil(x)`  | `=` | `min { y \| y ∈ O, F(x) <= y }`                       |
+| `O.f_I_floor(x)` | `=` | `max { y \| y ∈ O, y <= F(x) }`                       |
+| `O.f_I_trunc(x)` | `=` | `if 0 < F(x) then O.f_I_floor(x) else O.f_I_ceil(x)` |
 
-This definition is not complete as the result might be zero and in that case the sign has to be determined. In that case IEEE defines the result as `+0.0` with following exception: Should `f` be `+` or `-` and the result be zero then the sign is `-`. In Formal notation this gives us: (higher listed rules have precedence)
+This definition is not complete as the result might be zero and in that case the sign has to be determined. In that case IEEE defines the result as the usual sign rules (`+0.0` for `±`, `copysign(1,a*b) = copysign(1,a)*copysign(1,b)`) with following exception: Should `f` be `+` or `-` and the result be zero then the sign is `-`. In formal notation this gives us: (higher listed rules have precedence)
 
 
 | | | |
 | :------------- | :---: | :----------------------------------------------------------- |
-| O.±_I_floor(x) |  `=`  |  `min (maximal { y \| y ∈ O, y <= F(x) })`                    |
-| O.f_I_ceil(x)  |  `=`  |  `max { y \| y ∈ O\{-0.0},      F(x) <= y }`                  |
-| O.f_I_floor(x) |  `=`  |  `min { y \| y ∈ O\{-0.0}, y <= F(x)      })`                 |
-| O.f_I_trunc(x) |  `=`  |  `if 0 < F(x) then O.f_I_floor(x) else O.f_I_ceil(x)`        |
+| `O.±_I_floor(x)` |  `=`  |  `min (maximal { y \| y ∈ O, y <= F(x)      })`    |
+| `O.±_I_ceil(x)`  |  `=`  |  `max (minimal { y \| y ∈ O,      F(x) <= y })`    |
+| `O.f_I_ceil(x)`  |  `=`  |  `adapt_zero_signₓ { y \| y ∈ O,      F(x) <= y }`         |
+| `O.f_I_floor(x)` |  `=`  |  `adapt_zero_signₓ { y \| y ∈ O, y <= F(x)      }`         |
+| `O.f_I_trunc(x)` |  `=`  |  `if 0 < F(x) then O.f_I_floor(x) else O.f_I_ceil(x)`      |
+| `adapt_zero_signₓ( {r} )` | `=` | `r` |
+| `adapt_zero_signₓ( {-0.0,+0.0} )` | `=` | `copysign(0.0, x)` |
+| `adapt_zero_sign₍ₗ,ᵣ₎( {-0.0,+0.0} )` | `=` | `copysign(0.0, copysign(1.0, l) * copysign(1.0, r))` |
 
-Here means `minimal` a functions that gives the set of minimal elements of the input set. So the result set is either a non zero number singleton or the set `{-0.0, 0.0}`. Here `max` and `min` are parameterized on the relation `<` with the additional having `-0.0 < 0.0` to make the relation total.
 
-## redundants
+Here `maximal` means a function that gives the set of maximal elements of the input set. So the result set is either a non zero number singleton or the set `{-0.0, 0.0}`. Here `max` and `min` are parameterized on the relation `<` with the additional having `-0.0 < 0.0` to make the relation total.
 
-The following functions are redundant and simple to implement:
+## Redundants
+
+The following functions are redundant and simple to implement. For instance:
 ```
 f32.convert_i32_s_ceil
 f32.convert_i32_s_floor
@@ -181,7 +186,7 @@ f64.convert_i32_u_ceil
 f64.convert_i32_u_floor
 f64.convert_i32_u_trunc
 ```
-It turns out that the functions above are respectively equivalent to `f64.convert_i32_s` and `f64.convert_i32_u`. The reason is that an `f64` float contains a 53-bit mantissa, which is sufficient to accommodate an entire 'i32'.
+It turns out that the functions above are respectively equivalent to `f64.convert_i32_s` and `f64.convert_i32_u`. The reason is that an `f64` float contains a 53-bit mantissa, which is sufficient to accommodate an entire `i32`.
 
 
 
@@ -199,7 +204,7 @@ Technically the redundant functions do not add much normative value. But they ar
 
 The operation and conversion tensor does not get arbitrary holes. This makes it easier to reason about the operations. The mathematical defenition of the semantic of `f64.promote_f32_ceil` is still different from `f64.promote_f32`. It is easier to express intend that way.
 
-Having the full conversion tensor may improve portability of WebAssembly: With rounded instructions it is possible to write algorithms that are independent of and equivalent over different number formats. For example a user of the `wasm2c` tool could purposefully relax the requirement of `f32` to be IEEE floating point. The `c` standard does not require `flaot` to be IEEE. Lets say `f32` gets implemented by the plattform as `posit32`. `posit32` is a number format with more precicion around `1.0` than IEEE. That way there might be numbers in `float` that are not representable in `double`. Now you need `promot` with a rounding variation so that your iterating enclosing loop is still converging.
+Having the full conversion tensor may improve portability of WebAssembly: With rounded instructions it is possible to write algorithms that are independent of and equivalent over different number formats. For example a user of the `wasm2c` tool could purposefully relax the requirement of `f32` to be IEEE floating point. The `c` standard does not require `flaot` to be IEEE. Lets say `f32` gets implemented by the plattform as `posit32`. `posit32` is a number format with more precicion around `1.0` than IEEE. That way there might be numbers in `float` that are not representable in `double`. Now you need a rounding variant of `promot` so that your iterating enclosing loop is still converging.
 
 ## performance
 
