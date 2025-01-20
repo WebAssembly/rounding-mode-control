@@ -45,14 +45,10 @@ There are other options for rounding namely:
 |floor|take the neighbour that is less|
 |trunc|take the number that is closer to zero|
 
-This proposal proposes to extend the matrix of floating point instructions by combining them with a new dimension called a rounding variant. But the first 4 instructions in the table below are for the purposes of branch preparation as concerns most the important use case, that being interval arithmetic. This results in the following new instructions:
+This proposal proposes to extend the matrix of floating point instructions by combining them with a new dimension called a rounding variant. This results in the following new instructions:
 
 |prefix|opcode|opcode binary|name                 | pretty string      |
 |------|-------|--------------|----------------------|---------------------|
-| 0xFC | 0x1C | 0b00011100 | f32.binary_sign         | binary_sign         |
-| 0xFC | 0x1D | 0b00011101 | i32.trinary_sign_f32    | trinary_sign_f32    |
-| 0xFC | 0x1E | 0b00011110 | f64.binary_sign         | binary_sign         |
-| 0xFC | 0x1F | 0b00011111 | i32.trinary_sign_f64    | trinary_sign_f64    |
 | 0xFC | 0x20 | 0b00100000 | f32.sqrt_ceil           | sqrt_ceil           |
 | 0xFC | 0x21 | 0b00100001 | f32.add_ceil            | +_ceil              |
 | 0xFC | 0x22 | 0b00100010 | f32.sub_ceil            | -_ceil              |
