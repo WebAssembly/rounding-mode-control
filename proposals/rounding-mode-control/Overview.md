@@ -204,4 +204,4 @@ Having the full conversion tensor may improve portability of WebAssembly: With r
 
 ## performance
 
-A user might expect performance improvement when avoiding 2 or 3 of the 4 rounding variants all together on certain hardware.
+For a viable implementation the performance or startup latence is supposed to be faster than what is doable in user land. For example this user land [implementation](https://gitlab.com/pauldennis/rounding-fiasco/-/blob/main/README.md) is 13.77 MiB in size and uses 658623 instructions since it has to emulate the [FPU](https://en.wikipedia.org/wiki/Floating-point_unit) of the cpu.
