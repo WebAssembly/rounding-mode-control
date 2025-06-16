@@ -59,16 +59,16 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0x87 | 0b1'0000111 | f64.sub_ceil            | -_ceil              |
 | 0xFC | 0x88 | 0b1'0001000 | f64.mul_ceil            | *_ceil              |
 | 0xFC | 0x89 | 0b1'0001001 | f64.div_ceil            | /_ceil              |
-| 0xFC | 0x8a | 0b1'0001010 | f32.convert_i32_s_ceil  | convert_i32_s_ceil  |
-| 0xFC | 0x8b | 0b1'0001011 | f32.convert_i32_u_ceil  | convert_i32_u_ceil  |
-| 0xFC | 0x8c | 0b1'0001100 | f32.convert_i64_s_ceil  | convert_i64_s_ceil  |
-| 0xFC | 0x8d | 0b1'0001101 | f32.convert_i64_u_ceil  | convert_i64_u_ceil  |
-| 0xFC | 0x8e | 0b1'0001110 | f32.demote_f64_ceil     | demote_f64_ceil     |
-| 0xFC | 0x8f | 0b1'0001111 | f64.convert_i32_s_ceil  | convert_i32_s_ceil  |
-| 0xFC | 0x90 | 0b1'0010000 | f64.convert_i32_u_ceil  | convert_i32_u_ceil  |
-| 0xFC | 0x91 | 0b1'0010001 | f64.convert_i64_s_ceil  | convert_i64_s_ceil  |
-| 0xFC | 0x92 | 0b1'0010010 | f64.convert_i64_u_ceil  | convert_i64_u_ceil  |
-| 0xFC | 0x93 | 0b1'0010011 | f64.promote_f32_ceil    | promote_f32_ceil    |
+| 0xFC | 0x8a | 0b1'0001010 | f32.convert_ceil_i32_s  | convert_ceil_i32_s  |
+| 0xFC | 0x8b | 0b1'0001011 | f32.convert_ceil_i32_u  | convert_ceil_i32_u  |
+| 0xFC | 0x8c | 0b1'0001100 | f32.convert_ceil_i64_s  | convert_ceil_i64_s  |
+| 0xFC | 0x8d | 0b1'0001101 | f32.convert_ceil_i64_u  | convert_ceil_i64_u  |
+| 0xFC | 0x8e | 0b1'0001110 | f32.demote_ceil_f64     | demote_ceil_f64     |
+| 0xFC | 0x8f | 0b1'0001111 | f64.convert_ceil_i32_s  | convert_ceil_i32_s  |
+| 0xFC | 0x90 | 0b1'0010000 | f64.convert_ceil_i32_u  | convert_ceil_i32_u  |
+| 0xFC | 0x91 | 0b1'0010001 | f64.convert_ceil_i64_s  | convert_ceil_i64_s  |
+| 0xFC | 0x92 | 0b1'0010010 | f64.convert_ceil_i64_u  | convert_ceil_i64_u  |
+| 0xFC | 0x93 | 0b1'0010011 | f64.promote_ceil_f32    | promote_ceil_f32    |
 | 0xFC | 0x94 | 0b1'0010100 | f32.sqrt_floor          | sqrt_floor          |
 | 0xFC | 0x95 | 0b1'0010101 | f32.add_floor           | +_floor             |
 | 0xFC | 0x96 | 0b1'0010110 | f32.sub_floor           | -_floor             |
@@ -79,16 +79,16 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0x9b | 0b1'0011011 | f64.sub_floor           | -_floor             |
 | 0xFC | 0x9c | 0b1'0011100 | f64.mul_floor           | *_floor             |
 | 0xFC | 0x9d | 0b1'0011101 | f64.div_floor           | /_floor             |
-| 0xFC | 0x9e | 0b1'0011110 | f32.convert_i32_s_floor | convert_i32_s_floor |
-| 0xFC | 0x9f | 0b1'0011111 | f32.convert_i32_u_floor | convert_i32_u_floor |
-| 0xFC | 0xa0 | 0b1'0100000 | f32.convert_i64_s_floor | convert_i64_s_floor |
-| 0xFC | 0xa1 | 0b1'0100001 | f32.convert_i64_u_floor | convert_i64_u_floor |
-| 0xFC | 0xa2 | 0b1'0100010 | f32.demote_f64_floor    | demote_f64_floor    |
-| 0xFC | 0xa3 | 0b1'0100011 | f64.convert_i32_s_floor | convert_i32_s_floor |
-| 0xFC | 0xa4 | 0b1'0100100 | f64.convert_i32_u_floor | convert_i32_u_floor |
-| 0xFC | 0xa5 | 0b1'0100101 | f64.convert_i64_s_floor | convert_i64_s_floor |
-| 0xFC | 0xa6 | 0b1'0100110 | f64.convert_i64_u_floor | convert_i64_u_floor |
-| 0xFC | 0xa7 | 0b1'0100111 | f64.promote_f32_floor   | promote_f32_floor   |
+| 0xFC | 0x9e | 0b1'0011110 | f32.convert_floor_i32_s | convert_floor_i32_s |
+| 0xFC | 0x9f | 0b1'0011111 | f32.convert_floor_i32_u | convert_floor_i32_u |
+| 0xFC | 0xa0 | 0b1'0100000 | f32.convert_floor_i64_s | convert_floor_i64_s |
+| 0xFC | 0xa1 | 0b1'0100001 | f32.convert_floor_i64_u | convert_floor_i64_u |
+| 0xFC | 0xa2 | 0b1'0100010 | f32.demote_floor_f64    | demote_floor_f64    |
+| 0xFC | 0xa3 | 0b1'0100011 | f64.convert_floor_i32_s | convert_floor_i32_s |
+| 0xFC | 0xa4 | 0b1'0100100 | f64.convert_floor_i32_u | convert_floor_i32_u |
+| 0xFC | 0xa5 | 0b1'0100101 | f64.convert_floor_i64_s | convert_floor_i64_s |
+| 0xFC | 0xa6 | 0b1'0100110 | f64.convert_floor_i64_u | convert_floor_i64_u |
+| 0xFC | 0xa7 | 0b1'0100111 | f64.promote_floor_f32   | promote_floor_f32   |
 | 0xFC | 0xa8 | 0b1'0101000 | f32.sqrt_trunc          | sqrt_trunc          |
 | 0xFC | 0xa9 | 0b1'0101001 | f32.add_trunc           | +_trunc             |
 | 0xFC | 0xaa | 0b1'0101010 | f32.sub_trunc           | -_trunc             |
@@ -99,16 +99,16 @@ This proposal proposes to extend the matrix of floating point instructions by co
 | 0xFC | 0xaf | 0b1'0101111 | f64.sub_trunc           | -_trunc             |
 | 0xFC | 0xb0 | 0b1'0110000 | f64.mul_trunc           | *_trunc             |
 | 0xFC | 0xb1 | 0b1'0110001 | f64.div_trunc           | /_trunc             |
-| 0xFC | 0xb2 | 0b1'0110010 | f32.convert_i32_s_trunc | convert_i32_s_trunc |
-| 0xFC | 0xb3 | 0b1'0110011 | f32.convert_i32_u_trunc | convert_i32_u_trunc |
-| 0xFC | 0xb4 | 0b1'0110100 | f32.convert_i64_s_trunc | convert_i64_s_trunc |
-| 0xFC | 0xb5 | 0b1'0110101 | f32.convert_i64_u_trunc | convert_i64_u_trunc |
-| 0xFC | 0xb6 | 0b1'0110110 | f32.demote_f64_trunc    | demote_f64_trunc    |
-| 0xFC | 0xb7 | 0b1'0110111 | f64.convert_i32_s_trunc | convert_i32_s_trunc |
-| 0xFC | 0xb8 | 0b1'0111000 | f64.convert_i32_u_trunc | convert_i32_u_trunc |
-| 0xFC | 0xb9 | 0b1'0111001 | f64.convert_i64_s_trunc | convert_i64_s_trunc |
-| 0xFC | 0xba | 0b1'0111010 | f64.convert_i64_u_trunc | convert_i64_u_trunc |
-| 0xFC | 0xbb | 0b1'0111011 | f64.promote_f32_trunc   | promote_f32_trunc   |
+| 0xFC | 0xb2 | 0b1'0110010 | f32.convert_trunc_i32_s | convert_trunc_i32_s |
+| 0xFC | 0xb3 | 0b1'0110011 | f32.convert_trunc_i32_u | convert_trunc_i32_u |
+| 0xFC | 0xb4 | 0b1'0110100 | f32.convert_trunc_i64_s | convert_trunc_i64_s |
+| 0xFC | 0xb5 | 0b1'0110101 | f32.convert_trunc_i64_u | convert_trunc_i64_u |
+| 0xFC | 0xb6 | 0b1'0110110 | f32.demote_trunc_f64    | demote_trunc_f64    |
+| 0xFC | 0xb7 | 0b1'0110111 | f64.convert_trunc_i32_s | convert_trunc_i32_s |
+| 0xFC | 0xb8 | 0b1'0111000 | f64.convert_trunc_i32_u | convert_trunc_i32_u |
+| 0xFC | 0xb9 | 0b1'0111001 | f64.convert_trunc_i64_s | convert_trunc_i64_s |
+| 0xFC | 0xba | 0b1'0111010 | f64.convert_trunc_i64_u | convert_trunc_i64_u |
+| 0xFC | 0xbb | 0b1'0111011 | f64.promote_trunc_f32   | promote_trunc_f32   |
 
 ## Semantics
 
@@ -151,36 +151,36 @@ Here `maximal` means a function that gives the set of maximal elements of the in
 
 The following functions are redundant and simple to implement. For instance:
 ```
-f32.convert_i32_s_ceil
-f32.convert_i32_s_floor
-f32.convert_i32_s_trunc
-f32.convert_i32_u_ceil
-f32.convert_i32_u_floor
-f32.convert_i32_u_trunc
+f32.convert_ceil_i32_s
+f32.convert_floor_i32_s
+f32.convert_trunc_i32_s
+f32.convert_ceil_i32_u
+f32.convert_floor_i32_u
+f32.convert_trunc_i32_u
 ```
 The functions above could be implemented by using `extend` on the input `i32` to yield a `i64`, followed by `f32.convert_i64_x_round`.
 
 
 
 ```
-f32.convert_i64_s_ceil
-f32.convert_i64_s_floor
-f32.convert_i64_s_trunc
-f32.convert_i64_u_ceil
-f32.convert_i64_u_floor
-f32.convert_i64_u_trunc
+f32.convert_ceil_i64_s
+f32.convert_floor_i64_s
+f32.convert_trunc_i64_s
+f32.convert_ceil_i64_u
+f32.convert_floor_i64_u
+f32.convert_trunc_i64_u
 ```
 These `f32.convert_i64_x_round` functions could be implemented by utilizing `f64.convert_i64_x_round` and then using `f32.demote_f64_round` on the intermediate result. (Note that this doesn't always work with nearest-or-even rounding, but the "round" suffix does not comprehend that possibility.)
 
 
 
 ```
-f64.convert_i32_s_ceil
-f64.convert_i32_s_floor
-f64.convert_i32_s_trunc
-f64.convert_i32_u_ceil
-f64.convert_i32_u_floor
-f64.convert_i32_u_trunc
+f64.convert_ceil_i32_s
+f64.convert_floor_i32_s
+f64.convert_trunc_i32_s
+f64.convert_ceil_i32_u
+f64.convert_floor_i32_u
+f64.convert_trunc_i32_u
 ```
 It turns out that the functions above are respectively equivalent to `f64.convert_i32_s` and `f64.convert_i32_u`. The reason is that an `f64` float contains a 53-bit mantissa, which is sufficient to accommodate an entire `i32`.
 
@@ -188,9 +188,9 @@ It turns out that the functions above are respectively equivalent to `f64.conver
 
 
 ```
-f64.promote_f32_ceil
-f64.promote_f32_floor
-f64.promote_f32_trunc
+f64.promote_ceil_f32
+f64.promote_floor_f32
+f64.promote_trunc_f32
 ```
 These are all equivalent to `f64.promote_f32` because such promotion would be lossless and therefore agnostic to rounding mode.
 
@@ -198,7 +198,7 @@ These are all equivalent to `f64.promote_f32` because such promotion would be lo
 
 Technically the redundant functions do not add much normative value. But they are practical benefits of having them:
 
-The operation and conversion tensor does not get arbitrary holes. This makes it easier to reason about the operations. The mathematical defenition of the semantic of `f64.promote_f32_ceil` is still different from `f64.promote_f32`. It is easier to express intend that way.
+The operation and conversion tensor does not get arbitrary holes. This makes it easier to reason about the operations. The mathematical defenition of the semantic of `f64.promote_ceil_f32` is still different from `f64.promote_f32`. It is easier to express intend that way.
 
 Having the full conversion tensor may improve portability of WebAssembly: With rounded instructions it is possible to write algorithms that are independent of and equivalent over different number formats. For example a user of the `wasm2c` tool could purposefully relax the requirement of `f32` to be IEEE floating point. The `c` standard does not require `flaot` to be IEEE. Lets say `f32` gets implemented by the plattform as `posit32`. `posit32` is a number format with more precicion around `1.0` than IEEE. That way there might be numbers in `float` that are not representable in `double`. Now you need a rounding variant of `promot` so that your iterating enclosing loop is still converging.
 
