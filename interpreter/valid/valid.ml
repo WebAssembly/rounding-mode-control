@@ -137,18 +137,30 @@ let type_cvtop at = function
   | Values.F32 cvtop ->
     let open F32Op in
     (match cvtop with
-    | ConvertSI32 | ConvertUI32 | ReinterpretInt -> I32Type
-    | ConvertSI64 | ConvertUI64 -> I64Type
+    | ConvertSI32 | ConvertCeilSI32 | ConvertFloorSI32 | ConvertTruncSI32 | ConvertUI32 | ConvertCeilUI32 | ConvertFloorUI32 | ConvertTruncUI32 | ReinterpretInt -> I32Type
+    | ConvertSI64 | ConvertCeilSI64 | ConvertFloorSI64 | ConvertTruncSI64 | ConvertUI64 | ConvertCeilUI64 | ConvertFloorUI64 | ConvertTruncUI64 -> I64Type
     | PromoteF32 -> error at "invalid conversion"
+    | PromoteCeilF32 -> error at "invalid conversion"
+    | PromoteFloorF32 -> error at "invalid conversion"
+    | PromoteTruncF32 -> error at "invalid conversion"
     | DemoteF64 -> F64Type
+    | DemoteCeilF64 -> F64Type
+    | DemoteFloorF64 -> F64Type
+    | DemoteTruncF64 -> F64Type
     ), F32Type
   | Values.F64 cvtop ->
     let open F64Op in
     (match cvtop with
-    | ConvertSI32 | ConvertUI32 -> I32Type
-    | ConvertSI64 | ConvertUI64 | ReinterpretInt -> I64Type
+    | ConvertSI32 | ConvertCeilSI32 | ConvertFloorSI32 | ConvertTruncSI32 | ConvertUI32 | ConvertCeilUI32 | ConvertFloorUI32 | ConvertTruncUI32 -> I32Type
+    | ConvertSI64 | ConvertCeilSI64 | ConvertFloorSI64 | ConvertTruncSI64 | ConvertUI64 | ConvertCeilUI64 | ConvertFloorUI64 | ConvertTruncUI64 | ReinterpretInt -> I64Type
     | PromoteF32 -> F32Type
+    | PromoteCeilF32 -> F32Type
+    | PromoteFloorF32 -> F32Type
+    | PromoteTruncF32 -> F32Type
     | DemoteF64 -> error at "invalid conversion"
+    | DemoteCeilF64 -> error at "invalid conversion"
+    | DemoteFloorF64 -> error at "invalid conversion"
+    | DemoteTruncF64 -> error at "invalid conversion"
     ), F64Type
 
 let num_lanes = function

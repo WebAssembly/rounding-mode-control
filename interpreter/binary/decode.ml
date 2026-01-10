@@ -507,6 +507,69 @@ let rec instr s =
     | 0x10l -> table_size (at var s)
     | 0x11l -> table_fill (at var s)
 
+    | 0x80l -> f32_sqrt_ceil
+    | 0x81l -> f32_add_ceil
+    | 0x82l -> f32_sub_ceil
+    | 0x83l -> f32_mul_ceil
+    | 0x84l -> f32_div_ceil
+    | 0x85l -> f64_sqrt_ceil
+    | 0x86l -> f64_add_ceil
+    | 0x87l -> f64_sub_ceil
+    | 0x88l -> f64_mul_ceil
+    | 0x89l -> f64_div_ceil
+    | 0x8al -> f32_convert_ceil_i32_s
+    | 0x8bl -> f32_convert_ceil_i32_u
+    | 0x8cl -> f32_convert_ceil_i64_s
+    | 0x8dl -> f32_convert_ceil_i64_u
+    | 0x8el -> f32_demote_ceil_f64
+    | 0x8fl -> f64_convert_ceil_i32_s
+    | 0x90l -> f64_convert_ceil_i32_u
+    | 0x91l -> f64_convert_ceil_i64_s
+    | 0x92l -> f64_convert_ceil_i64_u
+    | 0x93l -> f64_promote_ceil_f32
+
+    | 0x94l -> f32_sqrt_floor
+    | 0x95l -> f32_add_floor
+    | 0x96l -> f32_sub_floor
+    | 0x97l -> f32_mul_floor
+    | 0x98l -> f32_div_floor
+    | 0x99l -> f64_sqrt_floor
+    | 0x9al -> f64_add_floor
+    | 0x9bl -> f64_sub_floor
+    | 0x9cl -> f64_mul_floor
+    | 0x9dl -> f64_div_floor
+    | 0x9el -> f32_convert_floor_i32_s
+    | 0x9fl -> f32_convert_floor_i32_u
+    | 0xa0l -> f32_convert_floor_i64_s
+    | 0xa1l -> f32_convert_floor_i64_u
+    | 0xa2l -> f32_demote_floor_f64
+    | 0xa3l -> f64_convert_floor_i32_s
+    | 0xa4l -> f64_convert_floor_i32_u
+    | 0xa5l -> f64_convert_floor_i64_s
+    | 0xa6l -> f64_convert_floor_i64_u
+    | 0xa7l -> f64_promote_floor_f32
+
+    | 0xa8l -> f32_sqrt_trunc
+    | 0xa9l -> f32_add_trunc
+    | 0xaal -> f32_sub_trunc
+    | 0xabl -> f32_mul_trunc
+    | 0xacl -> f32_div_trunc
+    | 0xadl -> f64_sqrt_trunc
+    | 0xael -> f64_add_trunc
+    | 0xafl -> f64_sub_trunc
+    | 0xb0l -> f64_mul_trunc
+    | 0xb1l -> f64_div_trunc
+    | 0xb2l -> f32_convert_trunc_i32_s
+    | 0xb3l -> f32_convert_trunc_i32_u
+    | 0xb4l -> f32_convert_trunc_i64_s
+    | 0xb5l -> f32_convert_trunc_i64_u
+    | 0xb6l -> f32_demote_trunc_f64
+    | 0xb7l -> f64_convert_trunc_i32_s
+    | 0xb8l -> f64_convert_trunc_i32_u
+    | 0xb9l -> f64_convert_trunc_i64_s
+    | 0xbal -> f64_convert_trunc_i64_u
+    | 0xbbl -> f64_promote_trunc_f32
+
     | n -> illegal2 s pos b n
     )
 
