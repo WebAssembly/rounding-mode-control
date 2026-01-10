@@ -38,12 +38,12 @@ end
 
 module FloatOp =
 struct
-  type unop = Neg | Abs | Ceil | Floor | Trunc | Nearest | Sqrt
-  type binop = Add | Sub | Mul | Div | Min | Max | CopySign
+  type unop = Neg | Abs | Ceil | Floor | Trunc | Nearest | Sqrt | SqrtCeil | SqrtFloor | SqrtTrunc
+  type binop = Add | AddCeil | AddFloor | AddTrunc | Sub | SubCeil | SubTrunc | SubFloor | Mul | MulCeil | MulFloor | MulTrunc | Div | DivCeil | DivFloor | DivTrunc | Min | Max | CopySign
   type testop = |
   type relop = Eq | Ne | Lt | Gt | Le | Ge
-  type cvtop = ConvertSI32 | ConvertUI32 | ConvertSI64 | ConvertUI64
-             | PromoteF32 | DemoteF64
+  type cvtop = ConvertSI32 | ConvertUI32 | ConvertSI64 | ConvertUI64 | ConvertCeilSI32 | ConvertCeilUI32 | ConvertCeilSI64 | ConvertCeilUI64 | ConvertFloorSI32 | ConvertFloorUI32 | ConvertFloorSI64 | ConvertFloorUI64 | ConvertTruncSI32 | ConvertTruncUI32 | ConvertTruncSI64 | ConvertTruncUI64
+             | PromoteF32 | PromoteCeilF32 | PromoteFloorF32 | PromoteTruncF32 | DemoteF64 | DemoteCeilF64 | DemoteFloorF64 | DemoteTruncF64
              | ReinterpretInt
 end
 

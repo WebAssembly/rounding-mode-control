@@ -72,6 +72,21 @@ struct
       | Neg -> FXX.neg
       | Abs -> FXX.abs
       | Sqrt  -> FXX.sqrt
+      | SqrtCeil -> (fun v1 ->
+          ItvUtils.Float.set_round_up ();
+          let result = FXX.sqrt v1 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | SqrtFloor -> (fun v1 ->
+          ItvUtils.Float.set_round_down ();
+          let result = FXX.sqrt v1 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | SqrtTrunc -> (fun v1 ->
+          ItvUtils.Float.set_round_zero ();
+          let result = FXX.sqrt v1 in
+          ItvUtils.Float.set_round_near ();
+          result)
       | Ceil -> FXX.ceil
       | Floor -> FXX.floor
       | Trunc -> FXX.trunc
@@ -81,6 +96,67 @@ struct
   let binop op =
     let f = match op with
       | Add -> FXX.add
+      | AddCeil -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_up ();
+          let result = FXX.add v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | AddFloor -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_down ();
+          let result = FXX.add v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | AddTrunc -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_zero ();
+          let result = FXX.add v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | SubCeil -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_up ();
+          let result = FXX.sub v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | SubFloor -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_down ();
+          let result = FXX.sub v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | SubTrunc -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_zero ();
+          let result = FXX.sub v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | MulCeil -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_up ();
+          let result = FXX.mul v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | MulFloor -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_down ();
+          let result = FXX.mul v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | MulTrunc -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_zero ();
+          let result = FXX.mul v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | DivCeil -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_up ();
+          let result = FXX.div v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | DivFloor -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_down ();
+          let result = FXX.div v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+      | DivTrunc -> (fun v1 v2 ->
+          ItvUtils.Float.set_round_zero ();
+          let result = FXX.div v1 v2 in
+          ItvUtils.Float.set_round_near ();
+          result)
+
       | Sub -> FXX.sub
       | Mul -> FXX.mul
       | Div -> FXX.div
@@ -157,12 +233,90 @@ struct
   let cvtop op v =
     let z = match op with
       | DemoteF64 -> F32_convert.demote_f64 (F64Num.of_num 1 v)
+      | DemoteCeilF64 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F32_convert.demote_f64 (F64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | DemoteFloorF64 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F32_convert.demote_f64 (F64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | DemoteTruncF64 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F32_convert.demote_f64 (F64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ConvertSI32 -> F32_convert.convert_i32_s (I32Num.of_num 1 v)
+      | ConvertCeilSI32 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F32_convert.convert_i32_s (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertFloorSI32 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F32_convert.convert_i32_s (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertTruncSI32 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F32_convert.convert_i32_s (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ConvertUI32 -> F32_convert.convert_i32_u (I32Num.of_num 1 v)
+      | ConvertCeilUI32 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F32_convert.convert_i32_u (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertFloorUI32 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F32_convert.convert_i32_u (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertTruncUI32 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F32_convert.convert_i32_u (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ConvertSI64 -> F32_convert.convert_i64_s (I64Num.of_num 1 v)
+      | ConvertCeilSI64 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F32_convert.convert_i64_s (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertFloorSI64 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F32_convert.convert_i64_s (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertTruncSI64 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F32_convert.convert_i64_s (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ConvertUI64 -> F32_convert.convert_i64_u (I64Num.of_num 1 v)
+      | ConvertCeilUI64 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F32_convert.convert_i64_u (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertFloorUI64 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F32_convert.convert_i64_u (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertTruncUI64 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F32_convert.convert_i64_u (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ReinterpretInt -> F32_convert.reinterpret_i32 (I32Num.of_num 1 v)
       | PromoteF32 -> raise (TypeError (1, v, F32Type))
+      | PromoteCeilF32 -> raise (TypeError (1, v, F32Type))
+      | PromoteFloorF32 -> raise (TypeError (1, v, F32Type))
+      | PromoteTruncF32 -> raise (TypeError (1, v, F32Type))
     in F32Num.to_num z
 end
 
@@ -173,12 +327,90 @@ struct
   let cvtop op v =
     let z = match op with
       | PromoteF32 -> F64_convert.promote_f32 (F32Num.of_num 1 v)
+      | PromoteCeilF32 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F64_convert.promote_f32 (F32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | PromoteFloorF32 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F64_convert.promote_f32 (F32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | PromoteTruncF32 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F64_convert.promote_f32 (F32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ConvertSI32 -> F64_convert.convert_i32_s (I32Num.of_num 1 v)
+      | ConvertCeilSI32 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F64_convert.convert_i32_s (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertFloorSI32 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F64_convert.convert_i32_s (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertTruncSI32 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F64_convert.convert_i32_s (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ConvertUI32 -> F64_convert.convert_i32_u (I32Num.of_num 1 v)
+      | ConvertCeilUI32 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F64_convert.convert_i32_u (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertFloorUI32 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F64_convert.convert_i32_u (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertTruncUI32 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F64_convert.convert_i32_u (I32Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ConvertSI64 -> F64_convert.convert_i64_s (I64Num.of_num 1 v)
+      | ConvertCeilSI64 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F64_convert.convert_i64_s (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertFloorSI64 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F64_convert.convert_i64_s (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertTruncSI64 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F64_convert.convert_i64_s (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ConvertUI64 -> F64_convert.convert_i64_u (I64Num.of_num 1 v)
+      | ConvertCeilUI64 ->
+        ItvUtils.Float.set_round_up ();
+        let result = F64_convert.convert_i64_u (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertFloorUI64 ->
+        ItvUtils.Float.set_round_down ();
+        let result = F64_convert.convert_i64_u (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
+      | ConvertTruncUI64 ->
+        ItvUtils.Float.set_round_zero ();
+        let result = F64_convert.convert_i64_u (I64Num.of_num 1 v) in
+        ItvUtils.Float.set_round_near ();
+        result
       | ReinterpretInt -> F64_convert.reinterpret_i64 (I64Num.of_num 1 v)
       | DemoteF64 -> raise (TypeError (1, v, F64Type))
+      | DemoteCeilF64 -> raise (TypeError (1, v, F64Type))
+      | DemoteFloorF64 -> raise (TypeError (1, v, F64Type))
+      | DemoteTruncF64 -> raise (TypeError (1, v, F64Type))
     in F64Num.to_num z
 end
 
