@@ -468,6 +468,76 @@ struct
     | Convert (F64 F64Op.ConvertUI32) -> op 0xb8
     | Convert (F64 F64Op.ConvertSI64) -> op 0xb9
     | Convert (F64 F64Op.ConvertUI64) -> op 0xba
+
+    | Unary (F32 F32Op.SqrtCeil) -> op 0xfc; u32 0x80l
+    | Binary (F32 F32Op.AddCeil) -> op 0xfc; u32 0x81l
+    | Binary (F32 F32Op.SubCeil) -> op 0xfc; u32 0x82l
+    | Binary (F32 F32Op.MulCeil) -> op 0xfc; u32 0x83l
+    | Binary (F32 F32Op.DivCeil) -> op 0xfc; u32 0x84l
+    | Unary (F64 F64Op.SqrtCeil) -> op 0xfc; u32 0x85l
+    | Binary (F64 F64Op.AddCeil) -> op 0xfc; u32 0x86l
+    | Binary (F64 F64Op.SubCeil) -> op 0xfc; u32 0x87l
+    | Binary (F64 F64Op.MulCeil) -> op 0xfc; u32 0x88l
+    | Binary (F64 F64Op.DivCeil) -> op 0xfc; u32 0x89l
+    | Convert (F32 F32Op.ConvertCeilSI32) -> op 0xfc; u32 0x8al
+    | Convert (F32 F32Op.ConvertCeilUI32) -> op 0xfc; u32 0x8bl
+    | Convert (F32 F32Op.ConvertCeilSI64) -> op 0xfc; u32 0x8cl
+    | Convert (F32 F32Op.ConvertCeilUI64) -> op 0xfc; u32 0x8dl
+    | Convert (F32 F32Op.DemoteCeilF64) -> op 0xfc; u32 0x8el
+    | Convert (F64 F64Op.ConvertCeilSI32) -> op 0xfc; u32 0x8fl
+    | Convert (F64 F64Op.ConvertCeilUI32) -> op 0xfc; u32 0x90l
+    | Convert (F64 F64Op.ConvertCeilSI64) -> op 0xfc; u32 0x91l
+    | Convert (F64 F64Op.ConvertCeilUI64) -> op 0xfc; u32 0x92l
+    | Convert (F64 F64Op.PromoteCeilF32) -> op 0xfc; u32 0x93l
+    | Convert (F32 F32Op.PromoteCeilF32) -> error e.at "illegal instruction f32.promote_ceil_f32"
+    | Convert (F64 F64Op.DemoteCeilF64) -> error e.at "illegal instruction f64.demote_ceil_f64"
+
+    | Unary (F32 F32Op.SqrtFloor) -> op 0xfc; u32 0x94l
+    | Binary (F32 F32Op.AddFloor) -> op 0xfc; u32 0x95l
+    | Binary (F32 F32Op.SubFloor) -> op 0xfc; u32 0x96l
+    | Binary (F32 F32Op.MulFloor) -> op 0xfc; u32 0x97l
+    | Binary (F32 F32Op.DivFloor) -> op 0xfc; u32 0x98l
+    | Unary (F64 F64Op.SqrtFloor) -> op 0xfc; u32 0x99l
+    | Binary (F64 F64Op.AddFloor) -> op 0xfc; u32 0x9al
+    | Binary (F64 F64Op.SubFloor) -> op 0xfc; u32 0x9bl
+    | Binary (F64 F64Op.MulFloor) -> op 0xfc; u32 0x9cl
+    | Binary (F64 F64Op.DivFloor) -> op 0xfc; u32 0x9dl
+    | Convert (F32 F32Op.ConvertFloorSI32) -> op 0xFc; u32 0x9el
+    | Convert (F32 F32Op.ConvertFloorUI32) -> op 0xFc; u32 0x9Fl
+    | Convert (F32 F32Op.ConvertFloorSI64) -> op 0xFc; u32 0xa0l
+    | Convert (F32 F32Op.ConvertFloorUI64) -> op 0xFc; u32 0xa1l
+    | Convert (F32 F32Op.DemoteFloorF64) -> op 0xFc; u32 0xa2l
+    | Convert (F64 F64Op.ConvertFloorSI32) -> op 0xFc; u32 0xa3l
+    | Convert (F64 F64Op.ConvertFloorUI32) -> op 0xFc; u32 0xa4l
+    | Convert (F64 F64Op.ConvertFloorSI64) -> op 0xFc; u32 0xa5l
+    | Convert (F64 F64Op.ConvertFloorUI64) -> op 0xFc; u32 0xa6l
+    | Convert (F64 F64Op.PromoteFloorF32) -> op 0xFc; u32 0xa7l
+    | Convert (F32 F32Op.PromoteFloorF32) -> error e.at "illegal instruction f32.promote_ceil_f32"
+    | Convert (F64 F64Op.DemoteFloorF64) -> error e.at "illegal instruction f64.demote_ceil_f64"
+
+    | Unary (F32 F32Op.SqrtTrunc) -> op 0xfc; u32 0xa8l
+    | Binary (F32 F32Op.AddTrunc) -> op 0xfc; u32 0xa9l
+    | Binary (F32 F32Op.SubTrunc) -> op 0xfc; u32 0xaal
+    | Binary (F32 F32Op.MulTrunc) -> op 0xfc; u32 0xabl
+    | Binary (F32 F32Op.DivTrunc) -> op 0xfc; u32 0xacl
+    | Unary (F64 F64Op.SqrtTrunc) -> op 0xfc; u32 0xadl
+    | Binary (F64 F64Op.AddTrunc) -> op 0xfc; u32 0xael
+    | Binary (F64 F64Op.SubTrunc) -> op 0xfc; u32 0xafl
+    | Binary (F64 F64Op.MulTrunc) -> op 0xfc; u32 0xb0l
+    | Binary (F64 F64Op.DivTrunc) -> op 0xfc; u32 0xb1l
+    | Convert (F32 F32Op.ConvertTruncSI32) -> op 0xfc; u32 0xb2l
+    | Convert (F32 F32Op.ConvertTruncUI32) -> op 0xfc; u32 0xb3l
+    | Convert (F32 F32Op.ConvertTruncSI64) -> op 0xfc; u32 0xb4l
+    | Convert (F32 F32Op.ConvertTruncUI64) -> op 0xfc; u32 0xb5l
+    | Convert (F32 F32Op.DemoteTruncF64) -> op 0xfc; u32 0xb6l
+    | Convert (F64 F64Op.ConvertTruncSI32) -> op 0xfc; u32 0xb7l
+    | Convert (F64 F64Op.ConvertTruncUI32) -> op 0xfc; u32 0xb8l
+    | Convert (F64 F64Op.ConvertTruncSI64) -> op 0xfc; u32 0xb9l
+    | Convert (F64 F64Op.ConvertTruncUI64) -> op 0xfc; u32 0xbal
+    | Convert (F64 F64Op.PromoteTruncF32) -> op 0xfc; u32 0xbbl
+    | Convert (F32 F32Op.PromoteTruncF32) -> error e.at "illegal instruction f32.promote_trunc_f32"
+    | Convert (F64 F64Op.DemoteTruncF64) -> error e.at "illegal instruction f64.demote_trunc_f64"
+
     | Convert (F64 F64Op.PromoteF32) -> op 0xbb
     | Convert (F64 F64Op.DemoteF64) ->
       error e.at "illegal instruction f64.demote_f64"

@@ -292,6 +292,9 @@ rule token = parse
       | "f32.neg" -> UNARY f32_neg
       | "f32.abs" -> UNARY f32_abs
       | "f32.sqrt" -> UNARY f32_sqrt
+      | "f32.sqrt_ceil" -> UNARY f32_sqrt_ceil
+      | "f32.sqrt_floor" -> UNARY f32_sqrt_floor
+      | "f32.sqrt_trunc" -> UNARY f32_sqrt_trunc
       | "f32.ceil" -> UNARY f32_ceil
       | "f32.floor" -> UNARY f32_floor
       | "f32.trunc" -> UNARY f32_trunc
@@ -299,6 +302,9 @@ rule token = parse
       | "f64.neg" -> UNARY f64_neg
       | "f64.abs" -> UNARY f64_abs
       | "f64.sqrt" -> UNARY f64_sqrt
+      | "f64.sqrt_ceil" -> UNARY f64_sqrt_ceil
+      | "f64.sqrt_floor" -> UNARY f64_sqrt_floor
+      | "f64.sqrt_trunc" -> UNARY f64_sqrt_trunc
       | "f64.ceil" -> UNARY f64_ceil
       | "f64.floor" -> UNARY f64_floor
       | "f64.trunc" -> UNARY f64_trunc
@@ -336,16 +342,40 @@ rule token = parse
       | "i64.rotr" -> BINARY i64_rotr
 
       | "f32.add" -> BINARY f32_add
+      | "f32.add_ceil" -> BINARY f32_add_ceil
+      | "f32.add_floor" -> BINARY f32_add_floor
+      | "f32.add_trunc" -> BINARY f32_add_trunc
       | "f32.sub" -> BINARY f32_sub
+      | "f32.sub_ceil" -> BINARY f32_sub_ceil
+      | "f32.sub_floor" -> BINARY f32_sub_floor
+      | "f32.sub_trunc" -> BINARY f32_sub_trunc
       | "f32.mul" -> BINARY f32_mul
+      | "f32.mul_ceil" -> BINARY f32_mul_ceil
+      | "f32.mul_floor" -> BINARY f32_mul_floor
+      | "f32.mul_trunc" -> BINARY f32_mul_trunc
       | "f32.div" -> BINARY f32_div
+      | "f32.div_ceil" -> BINARY f32_div_ceil
+      | "f32.div_floor" -> BINARY f32_div_floor
+      | "f32.div_trunc" -> BINARY f32_div_trunc
       | "f32.min" -> BINARY f32_min
       | "f32.max" -> BINARY f32_max
       | "f32.copysign" -> BINARY f32_copysign
       | "f64.add" -> BINARY f64_add
+      | "f64.add_ceil" -> BINARY f64_add_ceil
+      | "f64.add_floor" -> BINARY f64_add_floor
+      | "f64.add_trunc" -> BINARY f64_add_trunc
       | "f64.sub" -> BINARY f64_sub
+      | "f64.sub_ceil" -> BINARY f64_sub_ceil
+      | "f64.sub_floor" -> BINARY f64_sub_floor
+      | "f64.sub_trunc" -> BINARY f64_sub_trunc
       | "f64.mul" -> BINARY f64_mul
+      | "f64.mul_ceil" -> BINARY f64_mul_ceil
+      | "f64.mul_floor" -> BINARY f64_mul_floor
+      | "f64.mul_trunc" -> BINARY f64_mul_trunc
       | "f64.div" -> BINARY f64_div
+      | "f64.div_ceil" -> BINARY f64_div_ceil
+      | "f64.div_floor" -> BINARY f64_div_floor
+      | "f64.div_trunc" -> BINARY f64_div_trunc
       | "f64.min" -> BINARY f64_min
       | "f64.max" -> BINARY f64_max
       | "f64.copysign" -> BINARY f64_copysign
@@ -391,7 +421,13 @@ rule token = parse
       | "i64.extend_i32_s" -> CONVERT i64_extend_i32_s
       | "i64.extend_i32_u" -> CONVERT i64_extend_i32_u
       | "f32.demote_f64" -> CONVERT f32_demote_f64
+      | "f32.demote_ceil_f64" -> CONVERT f32_demote_ceil_f64
+      | "f32.demote_floor_f64" -> CONVERT f32_demote_floor_f64
+      | "f32.demote_trunc_f64" -> CONVERT f32_demote_trunc_f64
       | "f64.promote_f32" -> CONVERT f64_promote_f32
+      | "f64.promote_ceil_f32" -> CONVERT f64_promote_ceil_f32
+      | "f64.promote_floor_f32" -> CONVERT f64_promote_floor_f32
+      | "f64.promote_trunc_f32" -> CONVERT f64_promote_trunc_f32
       | "i32.trunc_f32_u" -> CONVERT i32_trunc_f32_u
       | "i32.trunc_f32_s" -> CONVERT i32_trunc_f32_s
       | "i64.trunc_f32_u" -> CONVERT i64_trunc_f32_u
@@ -409,13 +445,37 @@ rule token = parse
       | "i64.trunc_sat_f64_u" -> CONVERT i64_trunc_sat_f64_u
       | "i64.trunc_sat_f64_s" -> CONVERT i64_trunc_sat_f64_s
       | "f32.convert_i32_u" -> CONVERT f32_convert_i32_u
+      | "f32.convert_ceil_i32_u" -> CONVERT f32_convert_ceil_i32_u
+      | "f32.convert_floor_i32_u" -> CONVERT f32_convert_floor_i32_u
+      | "f32.convert_trunc_i32_u" -> CONVERT f32_convert_trunc_i32_u
       | "f32.convert_i32_s" -> CONVERT f32_convert_i32_s
+      | "f32.convert_ceil_i32_s" -> CONVERT f32_convert_ceil_i32_s
+      | "f32.convert_floor_i32_s" -> CONVERT f32_convert_floor_i32_s
+      | "f32.convert_trunc_i32_s" -> CONVERT f32_convert_trunc_i32_s
       | "f64.convert_i32_u" -> CONVERT f64_convert_i32_u
+      | "f64.convert_ceil_i32_u" -> CONVERT f64_convert_ceil_i32_u
+      | "f64.convert_floor_i32_u" -> CONVERT f64_convert_floor_i32_u
+      | "f64.convert_trunc_i32_u" -> CONVERT f64_convert_trunc_i32_u
       | "f64.convert_i32_s" -> CONVERT f64_convert_i32_s
+      | "f64.convert_ceil_i32_s" -> CONVERT f64_convert_ceil_i32_s
+      | "f64.convert_floor_i32_s" -> CONVERT f64_convert_floor_i32_s
+      | "f64.convert_trunc_i32_s" -> CONVERT f64_convert_trunc_i32_s
       | "f32.convert_i64_u" -> CONVERT f32_convert_i64_u
+      | "f32.convert_ceil_i64_u" -> CONVERT f32_convert_ceil_i64_u
+      | "f32.convert_floor_i64_u" -> CONVERT f32_convert_floor_i64_u
+      | "f32.convert_trunc_i64_u" -> CONVERT f32_convert_trunc_i64_u
       | "f32.convert_i64_s" -> CONVERT f32_convert_i64_s
+      | "f32.convert_ceil_i64_s" -> CONVERT f32_convert_ceil_i64_s
+      | "f32.convert_floor_i64_s" -> CONVERT f32_convert_floor_i64_s
+      | "f32.convert_trunc_i64_s" -> CONVERT f32_convert_trunc_i64_s
       | "f64.convert_i64_u" -> CONVERT f64_convert_i64_u
+      | "f64.convert_ceil_i64_u" -> CONVERT f64_convert_ceil_i64_u
+      | "f64.convert_floor_i64_u" -> CONVERT f64_convert_floor_i64_u
+      | "f64.convert_trunc_i64_u" -> CONVERT f64_convert_trunc_i64_u
       | "f64.convert_i64_s" -> CONVERT f64_convert_i64_s
+      | "f64.convert_ceil_i64_s" -> CONVERT f64_convert_ceil_i64_s
+      | "f64.convert_floor_i64_s" -> CONVERT f64_convert_floor_i64_s
+      | "f64.convert_trunc_i64_s" -> CONVERT f64_convert_trunc_i64_s
       | "f32.reinterpret_i32" -> CONVERT f32_reinterpret_i32
       | "f64.reinterpret_i64" -> CONVERT f64_reinterpret_i64
       | "i32.reinterpret_f32" -> CONVERT i32_reinterpret_f32
